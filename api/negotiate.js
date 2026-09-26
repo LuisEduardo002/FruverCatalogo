@@ -1,0 +1,386 @@
+/**
+ * Vercel Edge Function — Markdown content negotiation
+ * Handles Accept: text/markdown per https://acceptmarkdown.com
+ * Shared negotiate imported from single source of truth.
+ * Runtime: edge
+ */
+import { negotiate } from '../src/utils/acceptParser.js';
+import { SITE_URL } from '../src/config/site.js';
+
+export const config = {
+  runtime: 'edge',
+};
+
+function getMarkdownPath(pathname) {
+  if (pathname === '/' || pathname === '' || pathname === '/index.html') return '/__markdown/home.md';
+  const clean = pathname.replace(/\/+$/, '') || '/';
+  const file = clean.replace(/^\//, '') + '.md';
+  return `/__markdown/${file}`;
+}
+
+function jsonErrorBody({ status, code, message, hint, path, accept, available }) {
+  return JSON.stringify({
+    error: {
+      code,
+      message,
+      status,
+      path: path || '/',
+      ...(accept !== undefined ? { accept } : {}),
+      ...(available ? { available } : {}),
+      hint,
+      links: {
+        home: `${SITE_URL}/`,
+        catalog: `${SITE_URL}/catalogo`,
+        sitemap: `${SITE_URL}/sitemap.xml`,
+        llms: `${SITE_URL}/llms.txt`,
+        openapi: `${SITE_URL}/openapi.json`,
+      },
+    },
+  }, null, 2);
+}
+
+export default async function handler(request) {
+  const url = new URL(request.url);
+  // Prefer ?path= query param if present (from vercel.json rewrite), otherwise use pathname
+  const pathParam = url.searchParams.get('path');
+  const pathname = pathParam || url.pathname;
+  const accept = request.headers.get('accept') || '';
+  const wantsJson = accept.toLowerCase().includes('application/json');
+
+  // API routes — always JSON, regardless of Accept header
+  if (pathname.startsWith('/api/')) {
+    const knownApi = ['/api/catalog', '/api/products', '/api/health'];
+    const isProductApi = pathname.startsWith('/api/product/');
+    const isKnownApi = knownApi.includes(pathname) || isProductApi;
+    if (!isKnownApi) {
+      if (!(pathname === '/api/catalog/' || pathname === '/api/products/')) {
+        const body = jsonErrorBody({
+          status: 404,
+          code: 'not_found',
+          message: `API endpoint not found: ${pathname}`,
+          hint: 'Available API endpoints: GET /api/catalog, GET /api/product/{slug}, GET /api/health. See /openapi.json and /sitemap.xml',
+          path: pathname,
+        });
+        return new Response(body, {
+          status: 404,
+          headers: {
+            'Content-Type': 'application/json; charset=utf-8',
+            'Vary': 'Accept, Accept-Encoding',
+            'Cache-Control': 'public, max-age=60',
+          },
+        });
+      }
+    }
+    if (pathname === '/api/catalog' || pathname === '/api/products' || pathname === '/api/catalog/' || pathname === '/api/products/') {
+      const mdPath = '/__markdown/catalogo.md';
+      const mdUrl = new URL(mdPath, request.url);
+      let markdownContent = null;
+      try {
+        const mdResp = await fetch(mdUrl.toString(), { headers: { 'x-middleware-bypass': '1' } });
+        if (mdResp.ok) markdownContent = await mdResp.text();
+      } catch (e) { console.error('[negotiate] fetch failed', e); }
+      const body = JSON.stringify({
+        data: {
+          endpoint: '/api/catalog',
+          products: markdownContent ? 'See markdown_url' : null,
+          count: 244,
+          catalog_url: `${SITE_URL}/catalogo`,
+          markdown_url: `${SITE_URL}/__markdown/catalogo.md`,
+        },
+        links: {
+          self: `${SITE_URL}${pathname}`,
+          catalog: `${SITE_URL}/catalogo`,
+          sitemap: `${SITE_URL}/sitemap.xml`,
+          openapi: `${SITE_URL}/openapi.json`,
+        },
+      }, null, 2);
+      return new Response(body, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Vary': 'Accept, Accept-Encoding',
+          'Cache-Control': 'public, max-age=300',
+        },
+      });
+    }
+    if (pathname === '/api/health') {
+      const body = JSON.stringify({ status: 'ok', service: 'LAMAAR API', version: '1.0.0', timestamp: new Date().toISOString() }, null, 2);
+      return new Response(body, {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Vary': 'Accept, Accept-Encoding',
+          'Cache-Control': 'no-store',
+        },
+      });
+    }
+    if (isProductApi) {
+      const slug = pathname.replace('/api/product/', '').replace(/\/$/, '');
+      const mdPath = `/__markdown/producto/${slug}.md`;
+      const mdUrl = new URL(mdPath, request.url);
+      try {
+        const mdResp = await fetch(mdUrl.toString(), { headers: { 'x-middleware-bypass': '1' } });
+        if (mdResp.ok) {
+          const md = await mdResp.text();
+          const body = JSON.stringify({
+            data: { slug, product_url: `${SITE_URL}/producto/${slug}`, markdown: md.slice(0, 5000), markdown_url: `${SITE_URL}${mdPath}` },
+            links: { self: `${SITE_URL}${pathname}`, html: `${SITE_URL}/producto/${slug}` },
+          }, null, 2);
+          return new Response(body, {
+            status: 200,
+            headers: {
+              'Content-Type': 'application/json; charset=utf-8',
+              'Vary': 'Accept, Accept-Encoding',
+              'Cache-Control': 'public, max-age=300',
+            },
+          });
+        }
+      } catch (e) { console.error('[negotiate] fetch failed', e); }
+      const body = jsonErrorBody({
+        status: 404,
+        code: 'not_found',
+        message: `Product not found: ${slug}`,
+        hint: 'Check slug or browse /api/catalog. See /sitemap.xml for valid product slugs',
+        path: pathname,
+      });
+      return new Response(body, {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Vary': 'Accept, Accept-Encoding',
+          'Cache-Control': 'public, max-age=60',
+        },
+      });
+    }
+  }
+
+  const chosen = negotiate(accept, ['text/markdown', 'text/html', 'application/json'], 'text/html');
+
+  // 406 Not Acceptable
+  if (chosen === null) {
+    if (wantsJson) {
+      const body = jsonErrorBody({
+        status: 406,
+        code: 'not_acceptable',
+        message: `Not Acceptable: requested Accept '${accept}' has no available representation.`,
+        hint: 'Send Accept: text/html, text/markdown, or application/json. Example: curl -H "Accept: application/json" https://lamaarperfum.store/',
+        path: pathname,
+        accept,
+        available: ['text/html', 'text/markdown', 'application/json'],
+      });
+      return new Response(body, {
+        status: 406,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Vary': 'Accept, Accept-Encoding',
+          'Cache-Control': 'no-store',
+        },
+      });
+    }
+    return new Response(
+      `This resource is available in:\n- text/html\n- text/markdown\n- application/json\n\nYou requested: ${accept}\n`,
+      {
+        status: 406,
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Vary': 'Accept, Accept-Encoding',
+          'Cache-Control': 'no-store',
+        },
+      }
+    );
+  }
+
+  if (chosen === 'text/html') {
+    // Determine if this is a known HTML route - normalize /index.html to /
+    const normalizedPath = pathname === '/index.html' ? '/' : pathname;
+    const knownStatic = ['/', '/catalogo', '/privacidad', '/privacy', '/terminos', '/about', '/nosotros', '/contact', '/contacto', '/index.html'];
+    const isKnownStatic = knownStatic.includes(pathname) || knownStatic.includes(normalizedPath);
+    const isProductRoute = pathname.startsWith('/producto/');
+    let isKnown = isKnownStatic;
+
+    // For product routes, check if the markdown file exists to determine if product exists
+    if (isProductRoute) {
+      const mdPath = getMarkdownPath(pathname);
+      const mdCheckUrl = new URL(mdPath, request.url);
+      try {
+        const check = await fetch(mdCheckUrl.toString(), { method: 'HEAD', headers: { 'x-middleware-bypass': '1' } });
+        isKnown = check.ok;
+      } catch {
+        isKnown = false;
+      }
+    } else if (!isKnown) {
+      // Unknown path (not in knownStatic and not product) -> 404
+      isKnown = false;
+    }
+
+    // Try prerendered HTML for product/catalog first (price visible without JS)
+    let htmlResponse = null;
+    const tryPrerender = isProductRoute || pathname === '/catalogo' || pathname === '/catalogo/';
+    if (tryPrerender && isKnown) {
+      const prerenderCandidates = [
+        new URL(`${pathname.replace(/\/$/, '')}/index.html`, request.url).toString(),
+        new URL(pathname, request.url).toString(),
+      ];
+      for (const cand of prerenderCandidates) {
+        try {
+          const r = await fetch(cand, { headers: { 'x-middleware-bypass': '1' } });
+          // Check if it's actually prerendered (should contain Preis/price and JSON-LD Product)
+          const ct = r.headers.get('content-type') || '';
+          if (r.ok && ct.includes('text/html')) {
+            const clone = r.clone();
+            const text = await clone.text();
+            if (text.includes('itemprop="price"') || text.includes('"@type": "Product"')) {
+              htmlResponse = r;
+              break;
+            }
+          }
+        } catch (e) { console.error('[negotiate] fetch failed', e); }
+      }
+    }
+    if (!htmlResponse) {
+      const htmlUrl = new URL('/index.html', request.url);
+      htmlResponse = await fetch(htmlUrl.toString(), {
+        headers: { 'x-middleware-bypass': '1' },
+      });
+    }
+
+    const headers = new Headers(htmlResponse.headers);
+    headers.set('Vary', 'Accept, Accept-Encoding');
+    headers.set('Link', `<${pathname}>; rel="alternate"; type="text/markdown"`);
+    // Also advertise JSON alternate
+    headers.append('Link', `<${pathname}>; rel="alternate"; type="application/json"`);
+
+    const body = await htmlResponse.arrayBuffer();
+    return new Response(body, {
+      status: isKnown ? htmlResponse.status : 404,
+      headers,
+    });
+  }
+
+  if (chosen === 'application/json') {
+    const normalizedPath = pathname === '/index.html' ? '/' : pathname;
+    const knownStatic = ['/', '/catalogo', '/privacidad', '/privacy', '/terminos', '/about', '/nosotros', '/contact', '/contacto', '/index.html'];
+    const isKnownStatic = knownStatic.includes(pathname) || knownStatic.includes(normalizedPath);
+    const isProductRoute = pathname.startsWith('/producto/');
+    let isKnown = isKnownStatic;
+    if (isProductRoute) {
+      const mdPath = getMarkdownPath(pathname);
+      const mdCheckUrl = new URL(mdPath, request.url);
+      try {
+        const check = await fetch(mdCheckUrl.toString(), { method: 'HEAD', headers: { 'x-middleware-bypass': '1' } });
+        isKnown = check.ok;
+      } catch {
+        isKnown = false;
+      }
+    } else if (!isKnown) {
+      isKnown = false;
+    }
+
+    if (!isKnown) {
+      const body = jsonErrorBody({
+        status: 404,
+        code: 'not_found',
+        message: `Resource not found: ${pathname}`,
+        hint: 'Check the URL or browse the catalog at /catalogo. See sitemap at https://lamaarperfum.store/sitemap.xml or llms.txt at https://lamaarperfum.store/llms.txt',
+        path: pathname,
+      });
+      return new Response(body, {
+        status: 404,
+        headers: {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Vary': 'Accept, Accept-Encoding',
+          'Cache-Control': 'public, max-age=60',
+          'Link': `<${pathname}>; rel="alternate"; type="text/html"`,
+        },
+      });
+    }
+
+    // Known JSON resource - try to fetch markdown content to include
+    const mdPath = getMarkdownPath(pathname);
+    const mdUrl = new URL(mdPath, request.url);
+    let markdownContent = null;
+    try {
+      const mdResp = await fetch(mdUrl.toString(), { headers: { 'x-middleware-bypass': '1' } });
+      if (mdResp.ok) markdownContent = await mdResp.text();
+    } catch (e) { console.error('[negotiate] fetch failed', e); }
+    const body = JSON.stringify({
+      data: {
+        path: pathname,
+        url: `${SITE_URL}${pathname}`,
+        title: pathname === '/' ? 'LAMAAR | Perfumería en Manizales' : pathname,
+        markdown: markdownContent ? markdownContent.slice(0, 4000) : null,
+        markdown_url: `${SITE_URL}${mdPath}`,
+        html_url: `${SITE_URL}${pathname}`,
+      },
+      links: {
+        self: `${SITE_URL}${pathname}`,
+        html: `${SITE_URL}${pathname}`,
+        markdown: `${SITE_URL}${mdPath}`,
+        sitemap: `${SITE_URL}/sitemap.xml`,
+        llms: `${SITE_URL}/llms.txt`,
+        openapi: `${SITE_URL}/openapi.json`,
+      },
+    }, null, 2);
+    return new Response(body, {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Vary': 'Accept, Accept-Encoding',
+        'Cache-Control': 'public, max-age=300',
+        'Link': `<${pathname}>; rel="alternate"; type="text/html"`,
+      },
+    });
+  }
+
+  // Markdown chosen
+  const mdPath = getMarkdownPath(pathname);
+  const mdUrl = new URL(mdPath, request.url);
+
+  let mdResponse;
+  try {
+    mdResponse = await fetch(mdUrl.toString(), {
+      headers: { 'x-middleware-bypass': '1' },
+    });
+  } catch {
+    mdResponse = null;
+  }
+
+  if (!mdResponse || !mdResponse.ok) {
+    // Markdown not found — check if this is a known product or static route
+    // If unknown, serve the 404 markdown with 404 status
+    const notFoundMdUrl = new URL('/__markdown/404.md', request.url);
+    try {
+      const notFoundResponse = await fetch(notFoundMdUrl.toString(), { headers: { 'x-middleware-bypass': '1' } });
+      if (notFoundResponse.ok) {
+        const body = await notFoundResponse.arrayBuffer();
+        const headers = new Headers();
+        headers.set('Content-Type', 'text/markdown; charset=utf-8');
+        headers.set('Vary', 'Accept, Accept-Encoding');
+        headers.set('Cache-Control', 'public, max-age=60');
+        headers.set('Link', `<${pathname}>; rel="alternate"; type="text/html"`);
+        return new Response(body, { status: 404, headers });
+      }
+    } catch (e) { console.error('[negotiate] fetch failed', e); }
+    // Fallback to HTML 404 if markdown 404 not available
+    const htmlUrl = new URL('/index.html', request.url);
+    const fallback = await fetch(htmlUrl.toString(), { headers: { 'x-middleware-bypass': '1' } });
+    const headers = new Headers(fallback.headers);
+    headers.set('Vary', 'Accept, Accept-Encoding');
+    headers.set('Link', `<${pathname}>; rel="alternate"; type="text/markdown"`);
+    const body = await fallback.arrayBuffer();
+    return new Response(body, { status: 404, headers });
+  }
+
+  const mdBody = await mdResponse.arrayBuffer();
+  const headers = new Headers();
+  headers.set('Content-Type', 'text/markdown; charset=utf-8');
+  headers.set('Vary', 'Accept, Accept-Encoding');
+  headers.set('Cache-Control', 'public, max-age=300');
+  headers.set('Link', `<${pathname}>; rel="alternate"; type="text/html"`);
+  headers.append('Link', `<${pathname}>; rel="alternate"; type="application/json"`);
+
+  return new Response(mdBody, {
+    status: 200,
+    headers,
+  });
+}
