@@ -10,9 +10,11 @@
  * Sin stock ni disponibilidad: siempre hay. Si un día falta algo,
  * se avisa por WhatsApp al confirmar el pedido.
  *
- * - imagen: null por defecto (se muestra el emoji). Si luego tomas fotos,
- *   pon la ruta aquí, ej: '/images/tomate.jpg' y funcionará sin más cambios.
+ * - imagen: se conecta automáticamente desde ./imagenes.js (fotos de
+ *   src/IMAGENES/). Sin foto se muestra el emoji.
  */
+
+import { IMAGENES } from './imagenes';
 
 export const CATEGORIAS_FRUVER = ['Frutas', 'Verduras', 'Tubérculos', 'Hierbas', 'Lácteos', 'Despensa', 'Bebidas'];
 
@@ -1347,7 +1349,34 @@ export const productos = [
     destacado: false,
     origen: 'Caldas',
   },
+  {
+    id: 112,
+    nombre: 'Uchuva Desgranada',
+    categoria: 'Frutas',
+    precioPorKg: 16000,
+    descripcion: 'Uchuva desgranada, dulce y ácida.',
+    emoji: '🍒',
+    imagen: null,
+    destacado: false,
+    origen: 'Caldas',
+  },
+  {
+    id: 113,
+    nombre: 'Uchuva sin Desgranar',
+    categoria: 'Frutas',
+    precioPorKg: 5000,
+    descripcion: 'Uchuva con capacho.',
+    emoji: '🍒',
+    imagen: null,
+    destacado: false,
+    origen: 'Caldas',
+  },
 ];
+
+// Conecta las fotos reales (src/IMAGENES/) a cada producto por ID.
+for (const producto of productos) {
+  if (IMAGENES[producto.id]) producto.imagen = IMAGENES[producto.id];
+}
 
 // Alias de compatibilidad: el código viejo importaba { perfumes }.
 export const perfumes = productos;

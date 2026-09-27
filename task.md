@@ -11,8 +11,9 @@ Esquema copiado de la tienda de perfumes, adaptado a fruver:
   44 de presentación fija (`precioFijo` + `presentacion`: bandejas, und, litros, atados, bolsas, bultos)
 - `[x]` Categorías: Frutas (49), Verduras (27), Tubérculos (8), Hierbas (7), Lácteos (4), Despensa (12), Bebidas (4)
 - `[x]` Sin `stock`: siempre hay; si falta algo se avisa por WhatsApp
-- `[ ]` Fotos reales: hoy se muestra el emoji de cada producto (`imagen: null`).
-  Para poner foto: guarda en `public/images/` y pon `imagen: '/images/tomate.jpg'`
+- `[x]` Fotos reales: 99 de 113 productos con foto de `src/IMAGENES/` (vía `src/data/imagenes.js`).
+  Sin foto (usan emoji): ajo, tomate cherry, papa fina, bultos de papa, quesos, arepas sencillas,
+  mazamorra, ajís en tubo, agua, paca de aguas y uchuva sin desgranar.
 
 ## Datos fruver ✅
 - `[x]` `data/productos.js` con 14 productos (Frutas, Verduras, Tubérculos, Hierbas), precio por kg/unidad/atado en COP
