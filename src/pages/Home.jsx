@@ -141,6 +141,26 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Lo más pedido de la semana */}
+      <section className="bg-[#FAF9F6] py-20">
+        <Container>
+          <SectionTitle
+            title="Lo más pedido de la semana"
+            subtitle="Fresco, de todos los días y al mejor precio en Manizales."
+            centered
+          />
+          <FeaturedProductsCarousel products={featuredProducts} loading={loadingProducts} />
+
+          <div className="text-center mt-12">
+            <Link to="/catalogo">
+              <Button variant="outline" size="md">
+                Ver todo el catálogo
+              </Button>
+            </Link>
+          </div>
+        </Container>
+      </section>
+
       {/* Categorías */}
       <section className="bg-[#111111] py-14 md:py-20">
         <Container>
@@ -172,26 +192,6 @@ export default function Home() {
             <div className="rounded-2xl border border-stone-200 p-5"><p className="text-3xl">🏠</p><p className="mt-2 font-semibold text-[#111111]">3. Recibe fresco</p><p className="text-sm text-slate-600 mt-1">Domicilio en Manizales o recoge en tienda.</p></div>
           </div>
           <Faq title="Preguntas sobre tu mercado" items={purchaseFaqItems} />
-        </Container>
-      </section>
-
-      {/* Destacados */}
-      <section className="bg-[#FAF9F6] py-20">
-        <Container>
-          <SectionTitle
-            title="Lo más pedido de la semana"
-            subtitle="Fresco, de todos los días y al mejor precio en Manizales."
-            centered
-          />
-          <FeaturedProductsCarousel products={featuredProducts} loading={loadingProducts} />
-
-          <div className="text-center mt-12">
-            <Link to="/catalogo">
-              <Button variant="outline" size="md">
-                Ver todo el catálogo
-              </Button>
-            </Link>
-          </div>
         </Container>
       </section>
 
