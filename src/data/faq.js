@@ -36,7 +36,7 @@ export const faqItems = [
     id: 'horario',
     topic: 'tienda',
     q: '¿Cuál es el horario?',
-    a: 'Lunes a sábado 8:00 a.m. – 7:00 p.m. Domingos 8:00 a.m. – 1:00 p.m. en Cra. 14 #55d-148, Manizales.',
+    a: 'Lunes a sábado 8:00 a.m. – 9:00 p.m. Domingos 8:00 a.m. – 8:00 p.m. en Cra. 14 #55d-148, frente al Mallplaza, al lado de Concentrados del Centro, Manizales.',
   },
 ];
 

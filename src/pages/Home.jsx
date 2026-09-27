@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import Container from '../components/layout/Container';
 import SectionTitle from '../components/common/SectionTitle';
 import FeaturedProductsCarousel from '../components/product/FeaturedProductsCarousel';
@@ -10,7 +10,11 @@ import { purchaseFaqItems } from '../data/faq';
 import { NAP, SOCIAL, SITE_FULL_NAME } from '../config/site';
 import { getFeaturedProducts } from '../services/productService';
 import useSEO from '../hooks/useSEO';
-import { ArrowRight, Leaf, Truck, MessageCircle } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight, Clock, Leaf, MapPin, MessageCircle, Truck } from 'lucide-react';
+import banner1 from '../IMAGENES/banner1.png';
+import banner2 from '../IMAGENES/banner2.png';
+
+const HERO_SLIDES = [banner1, banner2];
 
 const CATEGORY_CARDS = [
   { nombre: 'Frutas', emoji: '🍎', texto: 'Dulces y jugosas del día', to: '/catalogo?categoria=Frutas' },
@@ -31,71 +35,110 @@ export default function Home() {
   });
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(true);
+  const [slide, setSlide] = useState(0);
 
   useEffect(() => {
     getFeaturedProducts().then(setFeaturedProducts).finally(() => setLoadingProducts(false));
   }, []);
 
+  // Slider automático del hero (5 segundos por banner)
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSlide((current) => (current + 1) % HERO_SLIDES.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <main className="flex-grow">
-      {/* Hero fruver */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-green-50 via-[#FAF9F6] to-amber-50 py-16 md:py-24">
-        <Container className="relative z-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+      {/* Hero con slider de banners */}
+      <section className="relative overflow-hidden bg-[#111111]">
+        <div className="relative h-[540px] md:h-[600px]">
+          <AnimatePresence mode="popLayout">
+            <motion.img
+              key={slide}
+              src={HERO_SLIDES[slide]}
+              alt={`Fruver El Granjero en Manizales — banner ${slide + 1}`}
+              initial={{ opacity: 0, scale: 1.04 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </AnimatePresence>
+          {/* Sombra para que el texto se lea sobre la foto */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/35 to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-transparent" />
+
+          {/* Flechas */}
+          <button
+            type="button"
+            onClick={() => setSlide((slide - 1 + HERO_SLIDES.length) % HERO_SLIDES.length)}
+            aria-label="Banner anterior"
+            className="absolute left-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/30"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={() => setSlide((slide + 1) % HERO_SLIDES.length)}
+            aria-label="Banner siguiente"
+            className="absolute right-3 top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur transition hover:bg-white/30"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+
+          {/* Contenido */}
+          <Container className="absolute inset-0 z-10 flex items-end pb-16 md:pb-20">
             <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="space-y-4 md:space-y-6 text-center md:text-left"
+              className="max-w-2xl space-y-4 text-left"
             >
-              <div className="inline-flex items-center gap-2 rounded-full bg-green-700 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-white">
+              <div className="inline-flex items-center gap-2 rounded-full bg-green-600 px-3.5 py-1 text-xs font-semibold uppercase tracking-wider text-white">
                 <Leaf className="w-3 h-3" /> Fresco todos los días
               </div>
 
-              <h1 className="text-3xl font-serif font-bold leading-tight text-[#111111] md:text-[44px] md:leading-[1.05]">
+              <h1 className="font-serif text-4xl font-bold leading-tight text-white md:text-6xl md:leading-[1.05]">
                 Tu Fruver en Manizales — Mercado Fresco por WhatsApp
               </h1>
-              <p className="text-base font-semibold tracking-[0.14em] uppercase text-green-700 -mt-1">{SITE_FULL_NAME} · Cra. 14 #55d-148</p>
 
-              <p className="hidden md:block text-lg text-slate-600 font-light leading-relaxed">
-                Arma tu mercado en el catálogo: frutas, verduras y todo lo del día, por peso con precio proporcional al kilo o por unidad, bandeja y litro. Confirmas por WhatsApp y lo recibes en casa.
+              <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm font-medium text-white/90">
+                <span className="inline-flex items-center gap-1.5">
+                  <MapPin className="h-4 w-4 text-green-400" /> Cra. 14 #55d-148, frente al Mallplaza
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <Clock className="h-4 w-4 text-green-400" /> Lun. a sáb. 8 a.m.–9 p.m. · Dom. 8 a.m.–8 p.m.
+                </span>
               </p>
 
-              <div className="flex flex-wrap gap-4 pt-1 md:pt-2 justify-center md:justify-start">
+              <div className="flex flex-wrap gap-3 pt-2">
                 <Link to="/catalogo">
-                  <Button variant="primary" size="lg" className="flex items-center gap-2 text-sm md:text-base !bg-green-700 hover:!bg-green-800">
+                  <Button variant="primary" size="lg" className="flex items-center gap-2 text-sm md:text-base !bg-green-600 hover:!bg-green-700">
                     Armar mi mercado <ArrowRight className="w-4 h-4" />
                   </Button>
                 </Link>
-                <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer">
-                  <Button variant="outline" size="lg" className="flex items-center gap-2 text-sm md:text-base">
-                    <MessageCircle className="w-4 h-4" /> WhatsApp
-                  </Button>
+                <a href={SOCIAL.whatsapp} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 rounded-full border border-white/50 px-8 py-4 text-sm font-medium text-white transition hover:bg-white/10 md:text-base">
+                  <MessageCircle className="w-4 h-4" /> WhatsApp
                 </a>
               </div>
             </motion.div>
+          </Container>
 
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="relative hidden md:flex justify-center"
-            >
-              <div className="relative flex h-96 w-80 flex-col justify-between rounded-3xl border border-green-200 bg-white/90 p-8 shadow-2xl backdrop-blur-sm">
-                <span className="text-xs uppercase tracking-widest text-slate-400 font-semibold">Del día 🥬</span>
-                <div className="text-center text-8xl">🥑</div>
-                <div>
-                  <h2 className="font-serif text-3xl font-bold text-[#111111]">Fresco y justo</h2>
-                  <p className="text-sm text-slate-500 mt-2">Tomate, papa, plátano, aguacate y más, seleccionados cada mañana.</p>
-                </div>
-                <div className="pt-4 border-t border-slate-200/50 flex justify-between items-center text-xs text-slate-600">
-                  <span>{NAP.address.full}</span>
-                  <span className="font-semibold text-green-700">8:00–19:00</span>
-                </div>
-              </div>
-            </motion.div>
+          {/* Puntos */}
+          <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
+            {HERO_SLIDES.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setSlide(index)}
+                aria-label={`Ir al banner ${index + 1}`}
+                className={`h-2 rounded-full transition-all ${index === slide ? 'w-6 bg-green-400' : 'w-2 bg-white/50 hover:bg-white/80'}`}
+              />
+            ))}
           </div>
-        </Container>
+        </div>
       </section>
 
       {/* Categorías */}
