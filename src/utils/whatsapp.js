@@ -10,17 +10,15 @@ import { esPeso, formatearPeso, formatearPesoTotal, precioPorPeso } from "./peso
 const PHONE_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "573207141222";
 
 function lineaPeso(item) {
-  const emoji = item.emoji ? `${item.emoji} ` : "🥬 ";
-  return `${emoji}${item.nombre} — ${formatearPeso(item.gramos)} — ${formatPrice(precioPorPeso(item.precioPorKg, item.gramos))}`;
+  return `- ${item.nombre} — ${formatearPeso(item.gramos)} — ${formatPrice(precioPorPeso(item.precioPorKg, item.gramos))}`;
 }
 
 function lineaFija(item) {
-  const emoji = item.emoji ? `${item.emoji} ` : "🥬 ";
   const cantidad = Number(item.cantidad || 1);
   const detalle = cantidad > 1 ? ` × ${cantidad}` : "";
   const subtotal = Number(item.precioFijo || 0) * cantidad;
   const presentacion = item.presentacion ? ` (${item.presentacion})` : "";
-  return `${emoji}${item.nombre}${presentacion}${detalle} — ${formatPrice(subtotal)}`;
+  return `- ${item.nombre}${presentacion}${detalle} — ${formatPrice(subtotal)}`;
 }
 
 /**
@@ -47,15 +45,15 @@ export function buildWhatsAppMessage(cartItems, total) {
         }, 0);
 
   const resumenPeso =
-    pesoTotalGramos > 0 ? `🧺 Peso total aprox: ${formatearPesoTotal(pesoTotalGramos)}\n` : "";
+    pesoTotalGramos > 0 ? `Peso total aprox: ${formatearPesoTotal(pesoTotalGramos)}\n` : "";
 
-  const message = `Hola Fruver El Granjero 🥬
+  const message = `Hola Fruver El Granjero,
 
 Quiero hacer mi mercado:
 
 ${itemLines}
 
-${resumenPeso}💰 Total a pagar: ${formatPrice(totalFinal)}
+${resumenPeso}Total a pagar: ${formatPrice(totalFinal)}
 
 ¿Me confirman el pedido y el valor del domicilio? Gracias.
 `;
