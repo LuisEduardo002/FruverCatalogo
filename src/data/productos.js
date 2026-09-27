@@ -1144,7 +1144,7 @@ export const productos = [
   {
     id: 96,
     nombre: 'Fríjol',
-    categoria: 'Despensa',
+    categoria: 'Verduras',
     precioPorKg: 9500,
     descripcion: 'Fríjol seco para el del domingo.',
     emoji: '🫘',

@@ -9,7 +9,7 @@ Esquema copiado de la tienda de perfumes, adaptado a fruver:
 - `[x]` `data/productos.js` con 111 productos y precios reales:
   67 por peso (`precioPorKg`: tomate, papa, frutas, verduras...) y
   44 de presentación fija (`precioFijo` + `presentacion`: bandejas, und, litros, atados, bolsas, bultos)
-- `[x]` Categorías: Frutas (49), Verduras (27), Tubérculos (8), Hierbas (7), Lácteos (4), Despensa (12), Bebidas (4)
+- `[x]` Categorías: Frutas (49), Verduras (28), Tubérculos (8), Hierbas (7), Lácteos (4), Despensa (11), Bebidas (4)
 - `[x]` Sin `stock`: siempre hay; si falta algo se avisa por WhatsApp
 - `[x]` Fotos reales: 99 de 113 productos con foto de `src/IMAGENES/` (vía `src/data/imagenes.js`).
   Sin foto (usan emoji): ajo, tomate cherry, papa fina, bultos de papa, quesos, arepas sencillas,

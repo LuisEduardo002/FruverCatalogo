@@ -13,17 +13,24 @@ import useSEO from '../hooks/useSEO';
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, Leaf, MapPin, MessageCircle, Truck } from 'lucide-react';
 import banner1 from '../IMAGENES/banner1.png';
 import banner2 from '../IMAGENES/banner2.png';
+import catFrutas from '../IMAGENES/manzana roja.jpg';
+import catVerduras from '../IMAGENES/tomate chonto.jpg';
+import catTuberculos from '../IMAGENES/papa parda.jpg';
+import catHierbas from '../IMAGENES/cilantro.jpg';
+import catLacteos from '../IMAGENES/leche alqueria entera 1lt.jpg';
+import catDespensa from '../IMAGENES/arepas congo.png';
+import catBebidas from '../IMAGENES/zumo 500 ml.png';
 
 const HERO_SLIDES = [banner1, banner2];
 
 const CATEGORY_CARDS = [
-  { nombre: 'Frutas', emoji: '🍎', texto: 'Dulces y jugosas del día', to: '/catalogo?categoria=Frutas' },
-  { nombre: 'Verduras', emoji: '🍅', texto: 'Frescas para guisos y ensaladas', to: '/catalogo?categoria=Verduras' },
-  { nombre: 'Tubérculos', emoji: '🥔', texto: 'Papa, yuca y más', to: '/catalogo?categoria=Tubérculos' },
-  { nombre: 'Hierbas', emoji: '🌿', texto: 'Cilantro, ajo y aromáticas', to: '/catalogo?categoria=Hierbas' },
-  { nombre: 'Lácteos', emoji: '🧀', texto: 'Quesos y leche', to: '/catalogo?categoria=Lácteos' },
-  { nombre: 'Despensa', emoji: '🫓', texto: 'Arepas, panela y más', to: '/catalogo?categoria=Despensa' },
-  { nombre: 'Bebidas', emoji: '🧃', texto: 'Zumos y agua', to: '/catalogo?categoria=Bebidas' },
+  { nombre: 'Frutas', img: catFrutas, texto: 'Dulces y jugosas del día', to: '/catalogo?categoria=Frutas' },
+  { nombre: 'Verduras', img: catVerduras, texto: 'Frescas para guisos y ensaladas', to: '/catalogo?categoria=Verduras' },
+  { nombre: 'Tubérculos', img: catTuberculos, texto: 'Papa, yuca y más', to: '/catalogo?categoria=Tubérculos' },
+  { nombre: 'Hierbas', img: catHierbas, texto: 'Cilantro, ajo y aromáticas', to: '/catalogo?categoria=Hierbas' },
+  { nombre: 'Lácteos', img: catLacteos, texto: 'Quesos y leche', to: '/catalogo?categoria=Lácteos' },
+  { nombre: 'Despensa', img: catDespensa, texto: 'Arepas, panela y más', to: '/catalogo?categoria=Despensa' },
+  { nombre: 'Bebidas', img: catBebidas, texto: 'Zumos y agua', to: '/catalogo?categoria=Bebidas' },
 ];
 
 export default function Home() {
@@ -171,7 +178,7 @@ export default function Home() {
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {CATEGORY_CARDS.map((cat) => (
               <Link key={cat.nombre} to={cat.to} className="group rounded-3xl border border-green-700/40 bg-white/[0.04] p-7 text-center transition hover:bg-white/[0.08]">
-                <div className="text-5xl transition group-hover:scale-110">{cat.emoji}</div>
+                <img src={cat.img} alt={cat.nombre} loading="lazy" className="mx-auto h-20 w-20 rounded-full object-cover ring-2 ring-green-700/40 transition group-hover:scale-110 group-hover:ring-green-400" />
                 <h3 className="mt-4 font-serif text-2xl text-white">{cat.nombre}</h3>
                 <p className="mt-1 text-sm text-slate-400">{cat.texto}</p>
                 <span className="mt-4 inline-flex items-center gap-2 text-sm text-green-400">Ver productos <ArrowRight className="h-4 w-4" /></span>
