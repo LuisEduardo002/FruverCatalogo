@@ -6,11 +6,14 @@ import 'swiper/css';
 import Container from '../layout/Container';
 import video1 from '../../IMAGENES/conocenosvideos.mp4';
 import video2 from '../../IMAGENES/conocenosvideo2.mp4';
+import fotoLocal from '../../IMAGENES/conoceellugar.jpeg';
 
-const SLIDES = [
+const VIDEOS = [
   { src: video1, titulo: 'Nuestro fruver' },
   { src: video2, titulo: 'Fresco todos los días' },
 ];
+
+const FOTOS = [{ src: fotoLocal, titulo: 'Conoce el lugar' }];
 
 /**
  * ConocenosSlider — Sección "Conócenos" con videos del negocio.
@@ -69,7 +72,20 @@ export default function ConocenosSlider() {
             }}
             className="!overflow-hidden py-4"
           >
-            {SLIDES.map((slide) => (
+            {FOTOS.map((foto) => (
+              <SwiperSlide key={foto.src} className="!h-auto">
+                <div className="overflow-hidden rounded-3xl border border-green-700/40">
+                  <img
+                    src={foto.src}
+                    alt={foto.titulo}
+                    loading="lazy"
+                    className="aspect-[4/3] max-h-[520px] w-full object-cover"
+                  />
+                </div>
+                <p className="mt-3 text-center text-sm text-slate-300">{foto.titulo}</p>
+              </SwiperSlide>
+            ))}
+            {VIDEOS.map((slide) => (
               <SwiperSlide key={slide.src} className="!h-auto">
                 <div className="overflow-hidden rounded-3xl border border-green-700/40 bg-black">
                   <video
