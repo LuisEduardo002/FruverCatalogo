@@ -6,6 +6,7 @@ import SectionTitle from '../components/common/SectionTitle';
 import FeaturedProductsCarousel from '../components/product/FeaturedProductsCarousel';
 import Button from '../components/common/Button';
 import Faq from '../components/common/Faq';
+import ConocenosSlider from '../components/common/ConocenosSlider';
 import { purchaseFaqItems } from '../data/faq';
 import { NAP, SOCIAL, SITE_FULL_NAME } from '../config/site';
 import { getFeaturedProducts } from '../services/productService';
@@ -238,6 +239,9 @@ export default function Home() {
           </div>
         </Container>
       </section>
+
+      {/* Conócenos — videos, justo antes del footer */}
+      <ConocenosSlider />
     </main>
   );
 }
