@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import Container from './Container';
+import logo from '../../IMAGENES/LOGOFRUVER.png';
 
 const footerLink = 'text-sm text-[#CFCFCF] transition-colors hover:text-green-400';
 
@@ -9,9 +10,8 @@ export default function Footer() {
       <Container>
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
           <div className="flex flex-col items-center text-center md:items-start md:text-left">
-            <Link to="/" className="mb-5 inline-flex items-center gap-3">
-              <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-green-700 text-3xl">🥬</span>
-              <span className="font-serif text-xl font-bold text-white">Fruver El Granjero</span>
+            <Link to="/" className="mb-5 inline-block">
+              <img src={logo} alt="Fruver El Granjero — Manizales" className="h-24 w-auto rounded-2xl object-contain" />
             </Link>
             <p className="max-w-xs text-sm leading-relaxed text-[#CFCFCF]">Frutas, verduras y tubérculos frescos todos los días en Manizales. Pide tu mercado por WhatsApp.</p>
           </div>

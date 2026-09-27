@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingBag, Search, X } from 'lucide-react';
 import Container from './Container';
+import logo from '../../IMAGENES/LOGOFRUVER.png';
 
 import useCartStore from '../../store/useCartStore';
 import CartDrawer from '../cart/CartDrawer';
@@ -58,11 +59,11 @@ export default function Navbar() {
             >
               {/* Logo + Inicio */}
               <Link to="/" className="flex-shrink-0 flex items-center gap-3">
-                <span className="flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-2xl bg-green-700 text-2xl" role="img" aria-label="Fruver El Granjero">🥬</span>
-                <span className="flex flex-col leading-tight">
-                  <span className="font-serif text-base md:text-lg font-bold text-[#111111]">Fruver El Granjero</span>
-                  <span className="text-[11px] uppercase tracking-[0.18em] text-green-700">Manizales · Fresco</span>
-                </span>
+                <img
+                  src={logo}
+                  alt="Fruver El Granjero — Manizales"
+                  className="h-14 md:h-16 w-auto rounded-xl object-contain"
+                />
               </Link>
 
               {/* Desktop Navigation */}
