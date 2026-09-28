@@ -74,12 +74,12 @@ export default function ConocenosSlider() {
           >
             {FOTOS.map((foto) => (
               <SwiperSlide key={foto.src} className="!h-auto">
-                <div className="overflow-hidden rounded-3xl border border-green-700/40">
+                <div className="overflow-hidden rounded-3xl border border-green-700/40 bg-black">
                   <img
                     src={foto.src}
                     alt={foto.titulo}
                     loading="lazy"
-                    className="aspect-[4/3] max-h-[520px] w-full object-cover"
+                    className="h-auto max-h-[520px] w-full object-contain"
                   />
                 </div>
                 <p className="mt-3 text-center text-sm text-slate-300">{foto.titulo}</p>
