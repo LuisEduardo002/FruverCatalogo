@@ -14,7 +14,7 @@ import useSEO from '../hooks/useSEO';
 import { ArrowRight, ChevronLeft, ChevronRight, Clock, Leaf, MapPin, MessageCircle, Truck } from 'lucide-react';
 import banner1 from '../IMAGENES/banner1.png';
 import banner2 from '../IMAGENES/banner2.png';
-import catFrutas from '../IMAGENES/manzana roja.jpg';
+import catFrutas from '../IMAGENES/bannerfrutas.jpeg';
 import catVerduras from '../IMAGENES/tomate chonto.jpg';
 import catTuberculos from '../IMAGENES/papa parda.jpg';
 import catHierbas from '../IMAGENES/cilantro.jpg';
@@ -25,13 +25,13 @@ import catBebidas from '../IMAGENES/zumo 500 ml.png';
 const HERO_SLIDES = [banner1, banner2];
 
 const CATEGORY_CARDS = [
-  { nombre: 'Frutas', img: catFrutas, texto: 'Dulces y jugosas del día', to: '/catalogo?categoria=Frutas' },
-  { nombre: 'Verduras', img: catVerduras, texto: 'Frescas para guisos y ensaladas', to: '/catalogo?categoria=Verduras' },
-  { nombre: 'Tubérculos', img: catTuberculos, texto: 'Papa, yuca y más', to: '/catalogo?categoria=Tubérculos' },
-  { nombre: 'Hierbas', img: catHierbas, texto: 'Cilantro, ajo y aromáticas', to: '/catalogo?categoria=Hierbas' },
-  { nombre: 'Lácteos', img: catLacteos, texto: 'Quesos y leche', to: '/catalogo?categoria=Lácteos' },
-  { nombre: 'Despensa', img: catDespensa, texto: 'Arepas, panela y más', to: '/catalogo?categoria=Despensa' },
-  { nombre: 'Bebidas', img: catBebidas, texto: 'Zumos y agua', to: '/catalogo?categoria=Bebidas' },
+  { nombre: 'Frutas', titulo1: 'FRUTAS', titulo2: 'FRESCAS', img: catFrutas, texto: 'Dulces y jugosas del día', to: '/catalogo?categoria=Frutas' },
+  { nombre: 'Verduras', titulo1: 'VERDURAS', titulo2: 'FRESCAS', img: catVerduras, texto: 'Para guisos y ensaladas', to: '/catalogo?categoria=Verduras' },
+  { nombre: 'Tubérculos', titulo1: 'TUBÉRCULOS', titulo2: 'DEL CAMPO', img: catTuberculos, texto: 'Papa, yuca y más', to: '/catalogo?categoria=Tubérculos' },
+  { nombre: 'Hierbas', titulo1: 'HIERBAS', titulo2: 'AROMÁTICAS', img: catHierbas, texto: 'Cilantro, ajo y más', to: '/catalogo?categoria=Hierbas' },
+  { nombre: 'Lácteos', titulo1: 'LÁCTEOS', titulo2: 'FRESCOS', img: catLacteos, texto: 'Quesos y leche', to: '/catalogo?categoria=Lácteos' },
+  { nombre: 'Despensa', titulo1: 'DESPENSA', titulo2: 'DE SIEMPRE', img: catDespensa, texto: 'Arepas, panela y más', to: '/catalogo?categoria=Despensa' },
+  { nombre: 'Bebidas', titulo1: 'BEBIDAS', titulo2: 'NATURALES', img: catBebidas, texto: 'Zumos y agua', to: '/catalogo?categoria=Bebidas' },
 ];
 
 export default function Home() {
@@ -176,13 +176,17 @@ export default function Home() {
             <p className="text-xs font-semibold uppercase tracking-[0.24em] text-green-400">Compra por categoría</p>
             <h2 className="mt-3 font-serif text-3xl text-white md:text-4xl">¿Qué necesitas hoy?</h2>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="grid gap-5 md:grid-cols-2">
             {CATEGORY_CARDS.map((cat) => (
-              <Link key={cat.nombre} to={cat.to} className="group rounded-3xl border border-green-700/40 bg-white/[0.04] p-7 text-center transition hover:bg-white/[0.08]">
-                <img src={cat.img} alt={cat.nombre} loading="lazy" className="mx-auto h-20 w-20 rounded-full object-cover ring-2 ring-green-700/40 transition group-hover:scale-110 group-hover:ring-green-400" />
-                <h3 className="mt-4 font-serif text-2xl text-white">{cat.nombre}</h3>
-                <p className="mt-1 text-sm text-slate-400">{cat.texto}</p>
-                <span className="mt-4 inline-flex items-center gap-2 text-sm text-green-400">Ver productos <ArrowRight className="h-4 w-4" /></span>
+              <Link key={cat.nombre} to={cat.to} className="group relative block overflow-hidden rounded-3xl border border-green-700/40">
+                <img src={cat.img} alt={cat.nombre} loading="lazy" className="h-44 w-full object-cover transition duration-700 group-hover:scale-105 md:h-56" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/25 to-transparent" />
+                <div className="absolute inset-0 flex flex-col justify-center p-6 md:p-8">
+                  <p className="font-sans text-2xl font-extrabold leading-none tracking-wide text-green-400 md:text-3xl">{cat.titulo1}</p>
+                  <p className="font-sans text-2xl font-extrabold leading-none tracking-wide text-white md:text-3xl">{cat.titulo2}</p>
+                  <p className="mt-2 text-sm text-white/80">{cat.texto}</p>
+                  <span className="mt-3 inline-flex items-center gap-2 text-sm font-medium text-white transition group-hover:text-green-300">Ver productos <ArrowRight className="h-4 w-4" /></span>
+                </div>
               </Link>
             ))}
           </div>
