@@ -5,6 +5,7 @@
 
 import { formatPrice } from "./formatPrice";
 import { esPeso, formatearPeso, formatearPesoTotal, precioPorPeso } from "./peso";
+import { COSTO_DOMICILIO } from "../config/site";
 
 // Número desde .env (VITE_WHATSAPP_NUMBER)
 const PHONE_NUMBER = import.meta.env.VITE_WHATSAPP_NUMBER || "573207141222";
@@ -36,13 +37,14 @@ export function buildWhatsAppMessage(cartItems, total) {
     (acc, item) => acc + (esPeso(item) ? Number(item.gramos || 0) : 0),
     0
   );
-  const totalFinal =
+  const subtotal =
     typeof total === "number"
       ? total
       : cartItems.reduce((acc, item) => {
           if (esPeso(item)) return acc + precioPorPeso(item.precioPorKg, item.gramos);
           return acc + Number(item.precioFijo || 0) * Number(item.cantidad || 0);
         }, 0);
+  const totalFinal = subtotal + COSTO_DOMICILIO;
 
   const resumenPeso =
     pesoTotalGramos > 0 ? `Peso total aprox: ${formatearPesoTotal(pesoTotalGramos)}\n` : "";
@@ -53,9 +55,11 @@ Quiero hacer mi mercado:
 
 ${itemLines}
 
-${resumenPeso}Total a pagar: ${formatPrice(totalFinal)}
+${resumenPeso}Subtotal: ${formatPrice(subtotal)}
+Domicilio: ${formatPrice(COSTO_DOMICILIO)}
+Total a pagar: ${formatPrice(totalFinal)}
 
-¿Me confirman el pedido y el valor del domicilio? Gracias.
+¿Me confirman el pedido? Gracias.
 `;
 
   return message;

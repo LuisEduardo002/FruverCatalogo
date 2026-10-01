@@ -50,3 +50,6 @@ export const PH_SERVICE = FRESH_SERVICE;
 
 export const CURRENCY = 'COP';
 export const PRICE_TTL_DAYS = 30;
+
+/** Valor del domicilio en Manizales. Se suma al total del carrito y del mensaje de WhatsApp. */
+export const COSTO_DOMICILIO = 6000;
