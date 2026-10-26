@@ -32,7 +32,7 @@ import img_coliflor from '../IMAGENES/coliflor.jpg';
 import img_durazno_bandeja from '../IMAGENES/durazno bandeja.webp';
 import img_durazno_kg from '../IMAGENES/durazno kg.webp';
 import img_espinaca from '../IMAGENES/espinaca.jpg';
-import img_fresa_granel from '../IMAGENES/fresa a granel.jpg';
+import img_fresas_bandeja from '../IMAGENES/fresas bandeja.jpg';
 import img_frijol from '../IMAGENES/frijol verde.jpg';
 import img_granadilla from '../IMAGENES/granadilla.jpg';
 import img_guanabana from '../IMAGENES/guanabana.jpg';
@@ -110,7 +110,7 @@ export const IMAGENES = {
   3: img_banano_bocadillo,
   4: img_banano,
   5: img_durazno_kg,
-  6: img_fresa_granel,
+  6: img_fresas_bandeja,
   7: img_granadilla,
   8: img_guanabana,
   9: img_guayaba_dulce,

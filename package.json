@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/generate-sitemap.cjs",
+    "build": "vite build && node scripts/generate-sitemap.cjs && node scripts/prerender-fruver.cjs",
     "indexnow": "node scripts/submit-indexnow.cjs",
     "lint": "oxlint",
     "preview": "vite preview",

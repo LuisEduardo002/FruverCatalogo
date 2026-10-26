@@ -1368,6 +1368,3 @@ export const productos = [
 for (const producto of productos) {
   if (IMAGENES[producto.id]) producto.imagen = IMAGENES[producto.id];
 }
-
-// Alias de compatibilidad: el código viejo importaba { perfumes }.
-export const perfumes = productos;

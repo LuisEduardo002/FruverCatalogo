@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 
 const SITE_NAME = 'Fruver El Granjero';
-const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://fruverelgranjero.store').replace(/\/+$/, '');
+const SITE_URL = (import.meta.env.VITE_SITE_URL || 'https://fruver-catalogo.vercel.app').replace(/\/+$/, '');
 
 function setMetaTag(attribute, key, content) {
   let element = document.head.querySelector(`meta[${attribute}="${key}"]`);

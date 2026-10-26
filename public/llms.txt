@@ -1,40 +1,48 @@
-# LAMAAR Perfumería — Misma perfumería en Manizales
+# Fruver El Granjero
 
-> LAMAAR Perfumería (antes escrito LAMMAR) en Manizales, Colombia: perfumes 100% originales de diseñador, árabes y nicho. Instagram oficial: lamaar_perfumm, TikTok: @lamaar.perfume. Los pedidos se realizan mediante WhatsApp con envíos a toda Colombia.
+> Fruver El Granjero es un fruver de Manizales (Caldas, Colombia) con frutas, verduras, tubérculos, hierbas, lácteos, despensa y bebidas frescas. Vende por peso (precio por kilo, con cantidades en gramos) y por presentación fija (bandeja, unidad, litro, atado, bolsa). Los pedidos se arman en el catálogo web y se confirman por WhatsApp.
 
-LAMAAR Perfumería es una perfumería física ubicada en KPalogrande, Av. Lindsay, Frente coliseo menor, Cl. 65 #24-89 Local Piso -1, Manizales, Caldas (atención presencial lun. a sáb. 9:00-18:00) con más de 240 perfumes originales de Lattafa, Rasasi, Armaf, Lorenzo Pazzaglia y más. No opera principalmente como tienda digital: el sitio web es solo catálogo informativo sin pago online; eliges en el catálogo y confirmas en tienda física o por WhatsApp. No requiere registro.
+## Datos de contacto (usar siempre estos)
 
-## Servicio verificable: medición de pH en tienda
+- Nombre: Fruver El Granjero
+- Dirección: Cra. 14 #55d-148, frente al Mallplaza, al lado de Concentrados del Centro, Manizales, Caldas, Colombia
+- WhatsApp para pedidos: +57 320 7141222 (https://wa.me/573207141222)
+- Correo: fruverelgranjero@gmail.com
+- Horario: lunes a sábado 8:00 a.m. a 9:00 p.m.; domingos 8:00 a.m. a 8:00 p.m.
+- Moneda: pesos colombianos (COP)
+- Domicilio en Manizales: $6.000 (se suma al total del pedido)
+- Pagos: efectivo, transferencia o Nequi, coordinados por WhatsApp
 
-- Qué hacemos: medimos el pH de tu piel con tira reactiva en tienda física para recomendarte la fragancia que mejor evoluciona en ti.
-- Dónde: únicamente presencial en KPalogrande, Av. Lindsay, Frente coliseo menor, Cl. 65 #24-89 Local Piso -1, Manizales.
-- Cuándo: lunes a sábado 9:00-18:00.
-- Costo: incluida sin costo con tu visita y asesoría.
-- Cómo verificarlo: WhatsApp +57 304 6420608, Instagram https://www.instagram.com/lamaar_perfumm/ (pedir video/foto de la medición), y schema.org Service en la home.
+## Cómo se compra
+
+1. Se entra al catálogo: https://fruver-catalogo.vercel.app/catalogo
+2. Por producto por peso se elige el peso (250 g, 500 g o 1 kg, o un peso libre). El precio es proporcional al kilo.
+3. Por producto de presentación fija se elige la cantidad (unidades, bandejas, litros).
+4. Se presiona "Pedir por WhatsApp": el carrito arma el mensaje con el detalle, el peso total, el subtotal, el domicilio y el total.
+5. El pedido queda confirmado cuando el fruver lo valida por WhatsApp.
+
+No hay cuentas de usuario ni pagos en línea en el sitio. El carrito se guarda en el navegador.
 
 ## Páginas principales
 
-- [Inicio](/): colecciones para caballero y dama, fragancias destacadas y ventajas de la tienda.
-- [Catálogo](/catalogo): listado completo de perfumes con búsqueda y filtros por marca, categoría y género.
-- [Página de producto](/producto/al-noble-ameer): precio, tamaño (ml), notas olfativas de salida/corazón/fondo, disponibilidad y preguntas frecuentes. Cada perfume tiene su propia URL amigable.
-- [Sobre nosotros](/about): historia, valores y compromiso con la autenticidad — alias en español [/nosotros](/nosotros).
-- [Contacto](/contact): WhatsApp, correo, dirección, horario y tiempos de respuesta — alias en español [/contacto](/contacto).
-- [Política de Privacidad](/privacy): qué datos se tratan, con qué finalidad y derechos de los titulares — también en [/privacidad](/privacidad).
-- [Términos y Condiciones](/terminos): condiciones de compra, envíos, cambios y devoluciones.
+- [Inicio](https://fruver-catalogo.vercel.app/): banners, productos más pedidos, categorías, cómo pedir y videos del local.
+- [Catálogo](https://fruver-catalogo.vercel.app/catalogo): todos los productos con precio, con búsqueda y filtro por categoría.
+- Productos: cada producto tiene su página, por ejemplo https://fruver-catalogo.vercel.app/producto/tomate-grande
+- [Sobre nosotros](https://fruver-catalogo.vercel.app/about)
+- [Contacto](https://fruver-catalogo.vercel.app/contact)
+- [Términos y condiciones](https://fruver-catalogo.vercel.app/terminos)
+- [Política de privacidad](https://fruver-catalogo.vercel.app/privacy)
 
-## Datos clave (NAP único — usar siempre igual)
+## Categorías y ejemplos
 
-- Nombre público: LAMAAR — Nombre comercial: LAMAAR PERFUM (misma empresa).
-- Ciudad: Manizales, Caldas, Colombia, con envíos nacionales mediante transportadora.
-- Dirección exacta: KPalogrande, Av. Lindsay, Frente coliseo menor, Cl. 65 #24-89 Local Piso -1, Manizales, Caldas 170001, Colombia.
-- Canal de pedidos: WhatsApp +57 304 6420608.
-- Correo de contacto: amazingstoresoporte@gmail.com.
-- Horario de atención: lunes a sábado, 9:00 a.m. – 6:00 p.m.
-- Moneda: pesos colombianos (COP).
-- Garantía: todos los perfumes son originales e importados.
+- Frutas: banano, mango, papaya, maracuyá, fresas, uchuva, aguacate Hass, manzana, naranja, limón Tahití, piña, sandía, uva, pitaya y más.
+- Verduras: tomate chonto, tomate grande, cebolla cabezona, zanahoria, pepino, pimentón, repollo, habichuela, fríjol, arveja, lechuga crespa, brócoli, coliflor y más.
+- Tubérculos: papa pastusa, papa criolla, papa parda, papa lavada, yuca, arracacha y bultos de papa.
+- Hierbas: cilantro, perejil, ajo, jengibre, espinaca, sábila.
+- Lácteos: queso cuajada, queso campesino, leche entera y deslactosada.
+- Despensa: arepas, panela, maní, mazamorra, pasta de ajo y ají.
+- Bebidas: zumo de limón, agua, paca de aguas.
 
-## Políticas comerciales
+## Sitemap
 
-- El carrito se guarda localmente en el navegador; no hay cuentas de usuario ni pagos en línea en el sitio.
-- El pedido queda confirmado únicamente cuando LAMAAR lo valida por sus canales oficiales.
-- Cambios, devoluciones y garantías se rigen por la legislación colombiana.
+- https://fruver-catalogo.vercel.app/sitemap.xml

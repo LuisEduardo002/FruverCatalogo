@@ -2,7 +2,7 @@ const fs=require('fs'), path=require('path');
 function readEnvValue(key){
   try{ const env=fs.readFileSync(path.join(__dirname,'..','..','.env'),'utf8'); const m=env.match(new RegExp(`^${key}=(.*)$`,'m')); return m?m[1].trim():null;}catch{return null;}
 }
-const SITE_URL=(process.env.VITE_SITE_URL||readEnvValue('VITE_SITE_URL')||'https://fruverelgranjero.store').replace(/\/+$/,'');
+const SITE_URL=(process.env.VITE_SITE_URL||readEnvValue('VITE_SITE_URL')||'https://fruver-catalogo.vercel.app').replace(/\/+$/,'');
 const SITE_NAME='Fruver El Granjero';
 const SITE_ALTERNATE_NAME='Fruver El Granjero';
 const SITE_FULL_NAME='Fruver El Granjero';

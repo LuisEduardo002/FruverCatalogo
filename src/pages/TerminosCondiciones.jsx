@@ -7,15 +7,15 @@ const TerminosCondiciones = () => {
     useSEO({
         title: 'Términos y Condiciones',
         description:
-            'Consulta los términos y condiciones de compra en LAMAAR: precios, envíos a toda Colombia, cambios, devoluciones y garantías de nuestros perfumes originales.',
+            'Consulta los términos y condiciones de compra en Fruver El Granjero: precios, envíos a toda Colombia, cambios, devoluciones y garantías de nuestros productos frescos.',
         canonical: '/terminos',
     });
     return (<main className="max-w-4xl mx-auto px-6 py-12 text-gray-800"> <h1 className="text-3xl font-bold mb-4">
         Términos y Condiciones </h1>
 
         <p className="mb-6">
-            Antes de comprar en LAMAAR es útil saber cómo funciona el pedido por WhatsApp,
-            qué pasa con los precios y promociones, en cuánto llega tu perfume y cómo solicitar
+            Antes de comprar en Fruver El Granjero es útil saber cómo funciona el pedido por WhatsApp,
+            qué pasa con los precios y promociones, en cuánto llega tu producto y cómo solicitar
             un cambio, devolución o garantía. Esas son las condiciones que encontrarás a
             continuación. El tratamiento de tu información personal se detalla en nuestra{' '}
             <Link to="/privacidad" className="font-medium text-[#4B1E28] hover:underline">
@@ -27,12 +27,12 @@ const TerminosCondiciones = () => {
             <KeyTakeaways
                 title="TL;DR: lo esencial de estos términos"
                 items={[
-                    'Somos perfumería física en Manizales (KPalogrande, Av. Lindsay, Frente coliseo menor, Cl. 65 #24-89 Local Piso -1) con catálogo web informativo: seleccionas y confirmas en tienda física o por WhatsApp.',
+                    'Somos fruver física en Manizales (Cra. 14 #55d-148, frente al Mallplaza, al lado de Concentrados del Centro) con catálogo web informativo: seleccionas y confirmas en tienda física o por WhatsApp.',
                     'No necesitas crear cuenta ni pagar en el sitio; los métodos de pago se coordinan al confirmar el pedido en tienda o por WhatsApp. No somos tienda digital pura.',
                     'Los tiempos de entrega son estimados y varían según ciudad y transportadora.',
-                    'Cambios, devoluciones y garantías se rigen por la legislación colombiana: escríbenos a amazingstoresoporte@gmail.com para gestionarlos.',
+                    'Cambios, devoluciones y garantías se rigen por la legislación colombiana: escríbenos a fruverelgranjero@gmail.com para gestionarlos.',
                 ]}
-                cta={{ to: '/catalogo', label: 'Ver perfumes disponibles' }}
+                cta={{ to: '/catalogo', label: 'Ver productos disponibles' }}
             />
         </div>
 
@@ -53,7 +53,7 @@ const TerminosCondiciones = () => {
                         </tr>
                         <tr>
                             <td className="px-4 py-3 font-medium">Confirmación</td>
-                            <td className="px-4 py-3">El pedido queda firme únicamente cuando LAMAAR lo confirma por sus canales oficiales.</td>
+                            <td className="px-4 py-3">El pedido queda firme únicamente cuando Fruver El Granjero lo confirma por sus canales oficiales.</td>
                         </tr>
                         <tr>
                             <td className="px-4 py-3 font-medium">Pago</td>
@@ -87,7 +87,7 @@ const TerminosCondiciones = () => {
 
                 <p>
                     Estos Términos y Condiciones regulan el acceso y uso del sitio web
-                    de <strong>LAMAAR PERFUM
+                    de <strong>Fruver El Granjero
                     </strong>, así como las condiciones
                     aplicables a la selección y solicitud de productos realizada a
                     través del sitio.
@@ -101,7 +101,7 @@ const TerminosCondiciones = () => {
 
                 <div className="mt-4">
                     <p>
-                        <strong>Nombre comercial:</strong> LAMAAR PERFUM
+                        <strong>Nombre comercial:</strong> Fruver El Granjero
 
                     </p>
                     <p>
@@ -114,7 +114,7 @@ const TerminosCondiciones = () => {
                         <strong>País:</strong> Colombia
                     </p>
                     <p>
-                        <strong>Correo:</strong> amazingstoresoporte@gmail.com
+                        <strong>Correo:</strong> fruverelgranjero@gmail.com
                     </p>
                     <p>
                         <strong>WhatsApp:</strong> [NÚMERO]
@@ -128,8 +128,8 @@ const TerminosCondiciones = () => {
                 </h2>
 
                 <p>
-                    Somos principalmente una perfumería física ubicada en Manizales
-                    (KPalogrande, Av. Lindsay, Frente coliseo menor, Cl. 65 #24-89 Local Piso -1) con atención presencial.
+                    Somos principalmente un fruver físico ubicada en Manizales
+                    (Cra. 14 #55d-148, frente al Mallplaza, al lado de Concentrados del Centro) con atención presencial.
                     Nuestro sitio web es únicamente un catálogo informativo para consultar
                     productos y precios; no es una tienda digital con pago online.
                 </p>
@@ -175,7 +175,7 @@ const TerminosCondiciones = () => {
 
                 <p className="mt-3">
                     El pedido se considerará confirmado únicamente cuando
-                    <strong> LAMAAR PERFUM
+                    <strong> Fruver El Granjero
                     </strong> lo confirme a través de sus
                     canales oficiales de comunicación.
                 </p>
@@ -224,7 +224,7 @@ const TerminosCondiciones = () => {
 
                 <p className="mt-3">
                     En caso de presentarse un error evidente en el precio de un
-                    producto, <strong>LAMAAR PERFUM
+                    producto, <strong>Fruver El Granjero
                     </strong> podrá comunicarse
                     con el cliente para aclarar la situación antes de confirmar el
                     pedido.
@@ -369,7 +369,7 @@ const TerminosCondiciones = () => {
                 <p>
                     Los textos, imágenes, logotipos, diseños, elementos gráficos,
                     código y demás contenidos del sitio son propiedad de
-                    <strong> LAMAAR PERFUM
+                    <strong> Fruver El Granjero
                     </strong> o son utilizados con las
                     autorizaciones correspondientes, cuando aplique.
                 </p>
@@ -423,7 +423,7 @@ const TerminosCondiciones = () => {
                 </h2>
 
                 <p>
-                    <strong>LAMAAR PERFUM
+                    <strong>Fruver El Granjero
                     </strong> podrá modificar estos
                     Términos y Condiciones cuando resulte necesario debido a cambios
                     legales, comerciales, tecnológicos u operativos.
@@ -459,9 +459,9 @@ const TerminosCondiciones = () => {
                 </p>
 
                 <div className="mt-3">
-                    <p><strong>LAMAAR PERFUM
+                    <p><strong>Fruver El Granjero
                     </strong></p>
-                    <p>Correo: amazingstoresoporte@gmail.com</p>
+                    <p>Correo: fruverelgranjero@gmail.com</p>
                     <p>WhatsApp: [NÚMERO]</p>
                     <p>Colombia</p>
                 </div>
@@ -470,8 +470,8 @@ const TerminosCondiciones = () => {
             <RelatedLinks
                 links={[
                     { to: '/privacidad', label: 'Política de Privacidad y datos personales' },
-                    { to: '/catalogo', label: 'Catálogo de perfumes originales' },
-                    { to: '/', label: 'Inicio: perfumería exclusiva LAMAAR' },
+                    { to: '/catalogo', label: 'Catálogo de productos frescos' },
+                    { to: '/', label: 'Inicio: fruver Fruver El Granjero' },
                 ]}
             />
 

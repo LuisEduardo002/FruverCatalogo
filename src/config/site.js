@@ -2,7 +2,7 @@
  * Central site configuration — Single Source of Truth for NAP, brand and URLs
  * Used by client (import.meta.env) and Edge (hardcoded fallback)
  */
-export const SITE_URL = (import.meta.env?.VITE_SITE_URL || 'https://fruverelgranjero.store').replace(/\/+$/, '');
+export const SITE_URL = (import.meta.env?.VITE_SITE_URL || 'https://fruver-catalogo.vercel.app').replace(/\/+$/, '');
 export const SITE_NAME = 'Fruver El Granjero';
 export const SITE_ALTERNATE_NAME = 'Fruver El Granjero';
 export const SITE_FULL_NAME = 'Fruver El Granjero';

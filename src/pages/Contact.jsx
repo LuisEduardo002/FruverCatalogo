@@ -61,7 +61,7 @@ const Contact = () => {
             <p><strong>Dirección:</strong> Cra. 14 #55d-148, frente al Mallplaza, al lado de Concentrados del Centro, Manizales, Caldas, Colombia</p>
             <p><strong>WhatsApp:</strong> +57 320 7141222</p>
             <p><strong>Horario:</strong> Lunes a sábado 8:00 a.m.–9:00 p.m. · Domingos 8:00 a.m.–8:00 p.m.</p>
-            <p><strong>Web:</strong> https://fruverelgranjero.store</p>
+            <p><strong>Web:</strong> https://fruver-catalogo.vercel.app</p>
           </div>
         </div>
 

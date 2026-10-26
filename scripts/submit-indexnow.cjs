@@ -2,7 +2,7 @@
  * submit-indexnow.cjs
  * Envía todas las URLs de dist/sitemap.xml a IndexNow (Bing, Yandex, etc.)
  * Uso: npm run indexnow
- * Requiere que https://lamaarperfum.store/<KEY>.txt ya esté desplegado.
+ * Requiere que https://fruver-catalogo.vercel.app/<KEY>.txt ya esté desplegado.
  * Fuente única: scripts/utils/site.cjs (SITE_URL, INDEXNOW_KEY). KEY por env INDEXNOW_KEY.
  */
 const fs = require('fs');
@@ -48,7 +48,7 @@ async function main() {
     const payload = { host: HOST, key: KEY, keyLocation: KEY_LOCATION, urlList: batch };
     const res = await fetch('https://api.indexnow.org/indexnow.json', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json; charset=utf-8', 'User-Agent': 'LAMAAR-Perfumeria-IndexNow/1.0' },
+      headers: { 'Content-Type': 'application/json; charset=utf-8', 'User-Agent': 'Fruver El Granjero-Perfumeria-IndexNow/1.0' },
       body: JSON.stringify(payload),
     });
     console.log(`Lote ${i + 1}/${batches.length}: status ${res.status}`);
@@ -63,7 +63,7 @@ async function main() {
     let ok = 0, fail = 0;
     for (const u of urls) {
       try {
-        const r = await fetch(`https://www.bing.com/indexnow?url=${encodeURIComponent(u)}&key=${KEY}`, { headers: { 'User-Agent': 'LAMAAR-Perfumeria-IndexNow/1.0' } });
+        const r = await fetch(`https://www.bing.com/indexnow?url=${encodeURIComponent(u)}&key=${KEY}`, { headers: { 'User-Agent': 'Fruver El Granjero-Perfumeria-IndexNow/1.0' } });
         if (r.status === 200 || r.status === 202) ok++;
         else fail++;
       } catch { fail++; }

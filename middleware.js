@@ -121,7 +121,7 @@ export default async function middleware(request) {
       });
     }
     if (pathname === '/api/health') {
-      const body = JSON.stringify({ status: 'ok', service: 'LAMAAR API', version: '1.0.0', timestamp: new Date().toISOString() }, null, 2);
+      const body = JSON.stringify({ status: 'ok', service: 'Fruver El Granjero API', version: '1.0.0', timestamp: new Date().toISOString() }, null, 2);
       return new Response(body, {
         status: 200,
         headers: {
@@ -197,7 +197,7 @@ export default async function middleware(request) {
         status: 406,
         code: 'not_acceptable',
         message: `Not Acceptable: requested Accept '${accept}' has no available representation.`,
-        hint: 'Send Accept: text/html, text/markdown, or application/json. Example: curl -H "Accept: application/json" https://lamaarperfum.store/',
+        hint: 'Send Accept: text/html, text/markdown, or application/json. Example: curl -H "Accept: application/json" https://fruver-catalogo.vercel.app/',
         path: pathname,
         accept,
         available: ['text/html', 'text/markdown', 'application/json'],
@@ -247,7 +247,7 @@ export default async function middleware(request) {
         status: 404,
         code: 'not_found',
         message: `Resource not found: ${pathname}`,
-        hint: 'Check the URL or browse the catalog at /catalogo. See sitemap at https://lamaarperfum.store/sitemap.xml or llms.txt at https://lamaarperfum.store/llms.txt',
+        hint: 'Check the URL or browse the catalog at /catalogo. See sitemap at https://fruver-catalogo.vercel.app/sitemap.xml or llms.txt at https://fruver-catalogo.vercel.app/llms.txt',
         path: pathname,
       });
       return new Response(body, {
@@ -271,7 +271,7 @@ export default async function middleware(request) {
       data: {
         path: pathname,
         url: `${SITE_URL}${pathname}`,
-        title: pathname === '/' ? 'LAMAAR | Perfumería en Manizales' : pathname,
+        title: pathname === '/' ? 'Fruver El Granjero | Frutas y verduras en Manizales' : pathname,
         markdown: markdownContent ? markdownContent.slice(0, 4000) : null,
         markdown_url: `${SITE_URL}${mdPath}`,
         html_url: `${SITE_URL}${pathname}`,

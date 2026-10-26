@@ -1,7 +1,7 @@
 /**
  * productService.js — Service Layer del Fruver
  *
- * MISMO ESQUEMA que la tienda de perfumes, adaptado a fruver:
+ * MISMO ESQUEMA que la tienda de productos, adaptado a fruver:
  * - Los componentes nunca importan data/productos.js directamente
  * - Siempre pasan por este servicio (fácil migrar a API/Firebase luego)
  * - Funciones retornan Promises para simular API real

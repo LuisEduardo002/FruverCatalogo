@@ -7,7 +7,7 @@ const PoliticaPrivacidad = () => {
     useSEO({
         title: 'Política de Privacidad',
         description:
-            'Conoce cómo LAMAAR trata la información personal de sus usuarios: datos recopilados, finalidades del tratamiento, seguridad y derechos de los titulares.',
+            'Conoce cómo Fruver El Granjero trata la información personal de sus usuarios: datos recopilados, finalidades del tratamiento, seguridad y derechos de los titulares.',
         canonical: '/privacy',
     });
     return (
@@ -17,7 +17,7 @@ const PoliticaPrivacidad = () => {
             </h1>
 
             <p className="mb-6">
-                Si llegaste aquí buscando qué datos recopilamos al comprar perfumes en LAMAAR,
+                Si llegaste aquí buscando qué datos recopilamos al comprar productos en Fruver El Granjero,
                 cómo los usamos y qué puedes hacer sobre tu información personal, en esta página
                 encontrarás la respuesta completa según la legislación colombiana.
             </p>
@@ -29,9 +29,9 @@ const PoliticaPrivacidad = () => {
                         'No pedimos registro ni almacenamos datos personales en el sitio: el carrito se guarda solo en tu navegador.',
                         'Los pedidos se gestionan por WhatsApp; los datos que envíes allí se usan únicamente para procesar tu compra y entrega.',
                         'No vendemos ni cedemos tu información; solo la compartimos con la transportadora cuando es necesario para entregar tu pedido.',
-                        'Puedes conocer, rectificar o solicitar la eliminación de tus datos escribiendo a amazingstoresoporte@gmail.com o al WhatsApp 304 6420608.',
+                        'Puedes conocer, rectificar o solicitar la eliminación de tus datos escribiendo a fruverelgranjero@gmail.com o al WhatsApp 320 7141222.',
                     ]}
-                    cta={{ to: '/catalogo', label: 'Explorar perfumes originales' }}
+                    cta={{ to: '/catalogo', label: 'Explorar productos frescos' }}
                 />
             </div>
 
@@ -80,11 +80,11 @@ const PoliticaPrivacidad = () => {
                     </h2>
 
                     <p>
-                        <strong>Nombre o razón social:</strong> LAMAAR PERFUM
+                        <strong>Nombre o razón social:</strong> Fruver El Granjero
 
                     </p>
                     <p>
-                        <strong>Nombre comercial:</strong> LAMAAR PERFUM
+                        <strong>Nombre comercial:</strong> Fruver El Granjero
 
                     </p>
                     <p>
@@ -94,10 +94,10 @@ const PoliticaPrivacidad = () => {
                         <strong>País:</strong> Colombia
                     </p>
                     <p>
-                        <strong>Correo electrónico:</strong> amazingstoresoporte@gmail.com
+                        <strong>Correo electrónico:</strong> fruverelgranjero@gmail.com
                     </p>
                     <p>
-                        <strong>WhatsApp:</strong>  304 6420608
+                        <strong>WhatsApp:</strong>  320 7141222
                     </p>
                 </div>
 
@@ -223,7 +223,7 @@ const PoliticaPrivacidad = () => {
 
                     <p className="mt-3">
                         La información que el usuario decida proporcionar mediante
-                        WhatsApp podrá ser tratada por <strong>LAMAAR PERFUM
+                        WhatsApp podrá ser tratada por <strong>Fruver El Granjero
                         </strong>
                         para las finalidades descritas en esta política.
                     </p>
@@ -359,11 +359,11 @@ const PoliticaPrivacidad = () => {
                     </p>
 
                     <p className="mt-3">
-                        <strong>Correo electrónico:</strong> amazingstoresoporte@gmail.com
+                        <strong>Correo electrónico:</strong> fruverelgranjero@gmail.com
                     </p>
 
                     <p>
-                        <strong>WhatsApp:</strong>  304 6420608
+                        <strong>WhatsApp:</strong>  320 7141222
                     </p>
 
                     <p className="mt-3">
@@ -443,10 +443,10 @@ const PoliticaPrivacidad = () => {
                     </p>
 
                     <div className="mt-3">
-                        <p><strong>LAMAAR PERFUM
+                        <p><strong>Fruver El Granjero
                         </strong></p>
-                        <p>Correo: amazingstoresoporte@gmail.com</p>
-                        <p>WhatsApp:  304 6420608</p>
+                        <p>Correo: fruverelgranjero@gmail.com</p>
+                        <p>WhatsApp:  320 7141222</p>
                         <p>Colombia</p>
                     </div>
                 </div>
@@ -454,8 +454,8 @@ const PoliticaPrivacidad = () => {
                 <RelatedLinks
                     links={[
                         { to: '/terminos', label: 'Términos y Condiciones de compra' },
-                        { to: '/catalogo', label: 'Catálogo de perfumes originales' },
-                        { to: '/', label: 'Inicio: perfumería exclusiva LAMAAR' },
+                        { to: '/catalogo', label: 'Catálogo de productos frescos' },
+                        { to: '/', label: 'Inicio: fruver Fruver El Granjero' },
                     ]}
                 />
 

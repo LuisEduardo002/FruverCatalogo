@@ -1,79 +1,62 @@
-const fs=require('fs'), path=require('path');
+const fs = require('fs');
+const path = require('path');
 const { slugify } = require('./slug.cjs');
 
-function parsePerfumes(source){
-  // Formato fruver (productos.js): por peso (precioPorKg) o fijo (precioFijo + presentacion)
-  if (source.includes('precioPorKg') || source.includes('precioFijo')) {
-    const out = [];
-    const pesoRe = /\{\s*id:\s*(\d+),\s*nombre:\s*'([^']+)',\s*categoria:\s*'([^']+)',\s*precioPorKg:\s*(\d+),\s*descripcion:\s*'([^']+)'[\s\S]*?emoji:\s*'([^']+)'/g;
-    const fijoRe = /\{\s*id:\s*(\d+),\s*nombre:\s*'([^']+)',\s*categoria:\s*'([^']+)',\s*tipo:\s*'fijo',\s*precioFijo:\s*(\d+),\s*presentacion:\s*'([^']+)'/g;
-    let m;
-    while ((m = pesoRe.exec(source)) !== null) {
-      const [, id, nombre, categoria, precioPorKg, descripcion, emoji] = m;
-      out.push({
-        id: Number(id), nombre, marca: 'Fruver El Granjero', precio: Number(precioPorKg),
-        categoria, genero: '', ml: 0, stock: 999, descripcion,
-        notas: { salida: [], corazon: [], fondo: [] },
-        slug: slugify(nombre), imagenVar: null, importPath: null,
-        sku: `FRUVER-${id}`, unidad: 'kg', emoji,
-      });
-    }
-    while ((m = fijoRe.exec(source)) !== null) {
-      const [, id, nombre, categoria, precioFijo, presentacion] = m;
-      out.push({
-        id: Number(id), nombre, marca: 'Fruver El Granjero', precio: Number(precioFijo),
-        categoria, genero: '', ml: 0, stock: 999, descripcion: presentacion,
-        notas: { salida: [], corazon: [], fondo: [] },
-        slug: slugify(nombre), imagenVar: null, importPath: null,
-        sku: `FRUVER-${id}`, unidad: presentacion, emoji: '',
-      });
-    }
-    if (out.length > 0) return out.sort((a, b) => a.id - b.id);
-  }
+const ROOT = path.join(__dirname, '..', '..');
 
-  // Formato legacy perfumes (marca, genero, ml, notas)
-  const perfumes=[];
-  const productRegex=/\{\s*id:\s*(\d+),\s*nombre:\s*"([^"]+)",\s*marca:\s*"([^"]+)",\s*precio:\s*(\d+),\s*categoria:\s*"([^"]+)",\s*genero:\s*"([^"]+)",\s*ml:\s*(\d+),\s*stock:\s*(\d+),\s*descripcion:\s*"([^"]+)"[\s\S]*?imagen:\s*(\w+)(?:,[\s\S]*?imagenes:\s*\[([^\]]*)\])?/g;
-  const importMap={};
-  const importRegex=/import\s+(\w+)\s+from\s+['"]([^'"]+)['"]/g;
-  let im;
-  while((im=importRegex.exec(source))!==null){
-    importMap[im[1]]=im[2];
+/** Mapa id -> archivo de foto, leído de src/data/imagenes.js */
+function parseImageMap(source) {
+  const vars = {};
+  for (const m of source.matchAll(/import\s+(\w+)\s+from\s+'\.\.\/IMAGENES\/([^']+)'/g)) {
+    vars[m[1]] = m[2];
   }
-  let m;
-  while((m=productRegex.exec(source))!==null){
-    const [, id, nombre, marca, precio, categoria, genero, ml, stock, descripcion, imagenVar] = m;
-    const blockStart=m.index;
-    const blockEnd=source.indexOf('},', blockStart)+2;
-    const block=source.slice(blockStart, blockEnd+800);
-    const notasMatch=block.match(/notas:\s*\{\s*salida:\s*\[([^\]]*)\],\s*corazon:\s*\[([^\]]*)\],\s*fondo:\s*\[([^\]]*)\]/);
-    let notas={ salida:[], corazon:[], fondo:[] };
-    if(notasMatch){
-      const parseList=s=>[...s.matchAll(/"([^"]+)"/g)].map(x=>x[1]);
-      notas={ salida:parseList(notasMatch[1]), corazon:parseList(notasMatch[2]), fondo:parseList(notasMatch[3]) };
-    }
-    perfumes.push({
-      id:Number(id), nombre, marca, precio:Number(precio), categoria, genero, ml:Number(ml), stock:Number(stock), descripcion,
-      notas, slug:slugify(nombre), imagenVar, importPath:importMap[imagenVar]||null,
-      sku:`LAMAAR-${id}`,
+  const map = {};
+  for (const m of source.matchAll(/^\s+(\d+):\s+(\w+),/gm)) {
+    if (vars[m[2]]) map[m[1]] = vars[m[2]];
+  }
+  return map;
+}
+
+/** Lee src/data/productos.js (sin ejecutarlo) y devuelve la lista normalizada. */
+function parseProductos(source, imageMap) {
+  const blocks = source.split(/\n  \{\n/).slice(1);
+  const out = [];
+  for (const b of blocks) {
+    const str = (k) => { const m = b.match(new RegExp(`\\b${k}: '([^']*)'`)); return m ? m[1] : null; };
+    const num = (k) => { const m = b.match(new RegExp(`\\b${k}: (\\d+)`)); return m ? Number(m[1]) : null; };
+    const id = num('id');
+    const nombre = str('nombre');
+    if (!id || !nombre) continue;
+    const fijo = /tipo: 'fijo'/.test(b);
+    const precioPorKg = num('precioPorKg');
+    const precioFijo = num('precioFijo');
+    const foto = imageMap[String(id)] || null;
+    out.push({
+      id,
+      nombre,
+      marca: 'Fruver El Granjero',
+      categoria: str('categoria') || 'Otros',
+      tipo: fijo ? 'fijo' : 'peso',
+      precioPorKg,
+      precioFijo,
+      presentacion: str('presentacion'),
+      precio: fijo ? precioFijo : precioPorKg,
+      descripcion: str('descripcion') || '',
+      emoji: str('emoji') || '',
+      origen: str('origen') || '',
+      destacado: /destacado: true/.test(b),
+      slug: slugify(nombre),
+      fotoArchivo: foto,
+      fotoPath: foto ? path.join(ROOT, 'src', 'IMAGENES', foto) : null,
     });
   }
-  return perfumes;
+  return out;
 }
 
-function loadPerfumes(){
-  // Fruver primero: productos.js. Fallback legacy: perfumes.js
-  const prodPath = path.join(__dirname,'..','..','src/data/productos.js');
-  const legacyPath = path.join(__dirname,'..','..','src/data/perfumes.js');
-  try {
-    if (fs.existsSync(prodPath)) {
-      const source = fs.readFileSync(prodPath,'utf8');
-      const parsed = parsePerfumes(source);
-      if (parsed.length > 0) return parsed;
-    }
-  } catch {}
-  const source=fs.readFileSync(legacyPath,'utf8');
-  return parsePerfumes(source);
+function loadPerfumes() {
+  const prodSource = fs.readFileSync(path.join(ROOT, 'src', 'data', 'productos.js'), 'utf8');
+  const imgSource = fs.readFileSync(path.join(ROOT, 'src', 'data', 'imagenes.js'), 'utf8');
+  return parseProductos(prodSource, parseImageMap(imgSource));
 }
 
-module.exports={ parsePerfumes, loadPerfumes, slugify };
+module.exports = { parseProductos, parseImageMap, loadPerfumes, slugify };
