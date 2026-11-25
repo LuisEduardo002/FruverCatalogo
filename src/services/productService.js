@@ -64,25 +64,38 @@ const ALIASES = {
   "pulpa maracuya 400": "PULPA MARACUYA",
 };
 
+async function fetchJson(url) {
+  try {
+    const res = await fetch(url, { headers: { Accept: "application/json" }, cache: "no-store" });
+    if (!res.ok) return null;
+    const json = await res.json();
+    return json && Array.isArray(json.products) ? json : null;
+  } catch {
+    return null;
+  }
+}
+
 function loadPrices() {
   if (priceState.map && Date.now() - priceState.at < TTL_MS) {
     return Promise.resolve(priceState.map);
   }
   if (priceState.promise) return priceState.promise;
 
-  priceState.promise = fetch("/api/precios", { headers: { Accept: "application/json" } })
-    .then((res) => (res.ok ? res.json() : null))
-    .then((json) => {
-      if (!json || !Array.isArray(json.products)) throw new Error("sin precios");
-      const map = new Map();
-      for (const p of json.products) map.set(p.key || norm(p.name), p);
-      priceState = { at: Date.now(), map, promise: null };
-      return map;
-    })
-    .catch(() => {
-      priceState = { at: 0, map: null, promise: null };
-      return null;
-    });
+  priceState.promise = (async () => {
+    // 1) API en vivo (requiere variables de entorno en Vercel)
+    let json = await fetchJson("/api/precios");
+    // 2) Respaldo estático generado por el sync local
+    if (!json) json = await fetchJson("/precios.json");
+    if (!json) throw new Error("sin precios");
+
+    const map = new Map();
+    for (const p of json.products) map.set(p.key || norm(p.name), p);
+    priceState = { at: Date.now(), map, promise: null };
+    return map;
+  })().catch(() => {
+    priceState = { at: 0, map: null, promise: null };
+    return null;
+  });
 
   return priceState.promise;
 }
