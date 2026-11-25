@@ -103,7 +103,7 @@
             "destination": "/api/negotiate"
         },
         {
-            "source": "/(.*)",
+            "source": "/((?!api/|precios\\.json).*)",
             "destination": "/api/negotiate"
         }
     ]
