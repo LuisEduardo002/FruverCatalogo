@@ -6,6 +6,7 @@
  */
 import { negotiate } from '../src/utils/acceptParser.js';
 import { SITE_URL } from '../src/config/site.js';
+import { preciosEstaticos } from './precios-estaticos.js';
 
 export const config = {
   runtime: 'edge',
@@ -46,6 +47,19 @@ export default async function handler(request) {
   const pathname = pathParam || url.pathname;
   const accept = request.headers.get('accept') || '';
   const wantsJson = accept.toLowerCase().includes('application/json');
+
+  // Precios del catalogo (GridPOS). Se sirven desde aqui porque el rewrite
+  // de la SPA manda todas las rutas a esta funcion.
+  if (pathname === '/api/precios' || pathname === '/precios.json') {
+    return new Response(JSON.stringify(preciosEstaticos), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
 
   // API routes — always JSON, regardless of Accept header
   if (pathname.startsWith('/api/')) {
