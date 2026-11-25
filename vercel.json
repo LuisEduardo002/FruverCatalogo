@@ -99,6 +99,14 @@
             "destination": "/api/negotiate"
         },
         {
+            "source": "/api/precios",
+            "destination": "/api/negotiate?path=/api/precios"
+        },
+        {
+            "source": "/precios.json",
+            "destination": "/api/negotiate?path=/precios.json"
+        },
+        {
             "source": "/",
             "destination": "/api/negotiate"
         },
