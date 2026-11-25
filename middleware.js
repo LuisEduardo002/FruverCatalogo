@@ -5,6 +5,7 @@
  */
 import { negotiate } from './src/utils/acceptParser.js';
 import { SITE_URL } from './src/config/site.js';
+import { preciosEstaticos } from './api/precios-estaticos.js';
 
 export const config = {
   matcher: '/(.*)',
@@ -41,6 +42,19 @@ function jsonErrorBody({ status, code, message, hint, path, accept, available })
 export default async function middleware(request) {
   const url = new URL(request.url);
   const pathname = url.pathname;
+
+  // Precios del catalogo (GridPOS): JSON para la web.
+  // Va antes del bloque de API porque middleware intercepta /api/*.
+  if (pathname === '/api/precios' || pathname === '/precios.json') {
+    return new Response(JSON.stringify(preciosEstaticos), {
+      status: 200,
+      headers: {
+        'Content-Type': 'application/json; charset=utf-8',
+        'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300',
+        'Access-Control-Allow-Origin': '*',
+      },
+    });
+  }
 
   // Skip static assets, markdown files, and well-known - but NOT /api/ (API must return JSON)
   if (
